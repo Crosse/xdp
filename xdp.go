@@ -119,6 +119,7 @@ var DefaultSocketOptions = SocketOptions{
 	CompletionRingNumDescs: 64,
 	RxRingNumDescs:         64,
 	TxRingNumDescs:         64,
+	Headroom:               0,
 }
 
 type umemRing struct {
@@ -161,6 +162,7 @@ type SocketOptions struct {
 	CompletionRingNumDescs int
 	RxRingNumDescs         int
 	TxRingNumDescs         int
+	Headroom               int
 }
 
 // Desc represents an XDP Rx/Tx descriptor.
@@ -233,7 +235,7 @@ func NewSocket(Ifindex int, QueueID int, options *SocketOptions) (xsk *Socket, e
 		Addr:     uint64(uintptr(unsafe.Pointer(&xsk.umem[0]))),
 		Len:      uint64(len(xsk.umem)),
 		Size:     uint32(options.FrameSize),
-		Headroom: 0,
+		Headroom: uint32(options.Headroom),
 	}
 
 	var errno syscall.Errno
