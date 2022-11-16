@@ -1,4 +1,4 @@
-module github.com/asavie/xdp
+module github.com/Crosse/xdp
 
 go 1.13
 
