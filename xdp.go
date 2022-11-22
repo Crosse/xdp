@@ -575,10 +575,19 @@ func (xsk *Socket) GetDescs(n int, rx bool) []Desc {
 }
 
 // GetFrame returns the buffer containing the frame corresponding to the given
-// descriptor. The returned byte slice points to the actual buffer of the
-// corresponding frame, so modiyfing this slice modifies the frame contents.
+// descriptor, starting at the frame data and not including any prepended headroom. The
+// returned byte slice points to the actual buffer of the corresponding frame, so
+// modifying this slice modifies the frame contents.
 func (xsk *Socket) GetFrame(d Desc) []byte {
 	return xsk.umem[d.Addr : d.Addr+uint64(d.Len)]
+}
+
+// GetFrame returns the buffer containing the frame corresponding to the given
+// descriptor, including any headroom. The returned byte slice points to the actual
+// buffer of the corresponding frame, so modifying this slice modifies the frame
+// contents.
+func (xsk *Socket) GetFrameWithHeadroom(d Desc) []byte {
+	return xsk.umem[d.Addr-uint64(xsk.options.Headroom) : d.Addr+uint64(d.Len)]
 }
 
 // Close closes and frees the resources allocated by the Socket.
