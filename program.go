@@ -254,8 +254,8 @@ func removeProgram(Ifindex int) error {
 	if !isXdpAttached(link) {
 		return nil
 	}
-	if err = netlink.LinkSetXdpFd(link, -1); err != nil {
-		return fmt.Errorf("netlink.LinkSetXdpFd(link, -1) failed: %v", err)
+	if err = netlink.LinkSetXdpFdWithFlags(link, -1, int(DefaultXdpFlags)); err != nil {
+		return fmt.Errorf("netlink.LinkSetXdpFdWithFlags(link, -1, int(DefaultXdpFlags)) failed: %v", err)
 	}
 	for {
 		link, err = netlink.LinkByIndex(Ifindex)
