@@ -7,5 +7,5 @@ require (
 	github.com/google/gopacket v1.1.19
 	github.com/miekg/dns v1.1.35
 	github.com/vishvananda/netlink v1.1.0
-	golang.org/x/sys v0.20.0
+	golang.org/x/sys v0.28.0
 )
